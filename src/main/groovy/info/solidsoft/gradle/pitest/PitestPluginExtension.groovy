@@ -135,6 +135,8 @@ class PitestPluginExtension {
     @Incubating
     List<String> features
 
+    Boolean includeAndroidTestClasses = false
+
     void setReportDir(String reportDirAsString) {
         this.reportDir = new File(reportDirAsString)
     }

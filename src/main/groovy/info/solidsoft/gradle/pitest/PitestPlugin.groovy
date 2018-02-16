@@ -129,6 +129,9 @@ class PitestPlugin implements Plugin<Project> {
         if (variant instanceof TestedVariant) {
             combinedTaskClasspath.add(variant.unitTestVariant.javaCompiler.classpath)
             combinedTaskClasspath.add(project.files(variant.unitTestVariant.javaCompiler.destinationDir))
+            if (extension.includeAndroidTestClasses && variant.testVariant != null) {
+                combinedTaskClasspath.add(project.files(variant.testVariant.javaCompiler.destinationDir))
+            }
         }
         combinedTaskClasspath.add(variant.javaCompiler.classpath)
         combinedTaskClasspath.add(project.files(variant.javaCompiler.destinationDir))
@@ -203,6 +206,8 @@ class PitestPlugin implements Plugin<Project> {
             pluginConfiguration = { extension.pluginConfiguration }
             maxSurviving = { extension.maxSurviving }
             features = { extension.features }
+            packageName = { variant.applicationId } // todo: variant suffix?
+            classesPath = { variant.javaCompiler.destinationDir.getPath() }
         }
     }
 

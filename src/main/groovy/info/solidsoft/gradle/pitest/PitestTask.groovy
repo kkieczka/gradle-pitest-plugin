@@ -188,6 +188,12 @@ class PitestTask extends JavaExec {
     @Optional
     List<String> features
 
+    @Input
+    String packageName
+
+    @Input
+    String classesPath
+
     @Override
     void exec() {
         //Workaround for compatibility with Gradle <4.0 due to setArgs(List) and setJvmArgs(List) added in Gradle 4.0
@@ -195,6 +201,8 @@ class PitestTask extends JavaExec {
         jvmArgs = (getMainProcessJvmArgs() ?: getJvmArgs())
         main = "org.pitest.mutationtest.commandline.MutationCoverageReport"
         classpath = getLaunchClasspath()
+        environment.put("PITEST_ANDROID_PKGNAME", getPackageName())
+        environment.put("PITEST_ANDROID_CLASSFILES_PATH", getClassesPath())
         super.exec()
     }
 
